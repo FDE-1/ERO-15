@@ -1,4 +1,5 @@
 import networkx as nx
+from scipy.optimize import linear_sum_assignment
 
 # à faire
 def eurilize_graph(graph):
@@ -32,6 +33,11 @@ def eurilize_graph(graph):
         path = nx.shortest_path(graph, u, v, weight='weight')
         for i in range(len(path) - 1):
             graph.add_edge(path[i], path[i + 1], weight=graph[path[i]][path[i + 1]].get('weight', 1))
+        
+    if not nx.is_eulerian(graph):
+        print("HMAR DINMOK")
+        exit()
+
     return graph
 
 # à faire

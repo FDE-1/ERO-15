@@ -1,4 +1,5 @@
 import osmnx as ox
+import networkx as nx
 
 def get_district_graph(district):
     try:
