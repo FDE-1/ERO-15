@@ -6,10 +6,57 @@ import sys
 from map import get_district_graph
 from networkx.drawing.nx_pydot import write_dot
 import threading
-# from eulerize import eurilize_graph
+from itertools import combinations
+
+from joblib import Parallel, delayed
+import multiprocessing
+
+import networkx as nx
+from itertools import combinations
+from functools import lru_cache
+
+def eulerize(G):
+    if G.order() == 0:
+        raise nx.NetworkXPointlessConcept("Cannot Eulerize null graph")
+    if not nx.is_connected(G):
+        raise nx.NetworkXError("G is not connected")
+
+    odd_degree_nodes = [n for n, d in G.degree() if d % 2 == 1]
+    G = nx.MultiGraph(G)
+    
+    if len(odd_degree_nodes) == 0:
+        return G
+
+    # Use Johnson's algorithm for all-pairs shortest paths for sparse graphs
+    all_pairs_shortest_paths = dict(nx.johnson(G))
+
+    # Create a list of pairs (m, n) with their shortest path lengths
+    odd_deg_pairs = [
+        (m, n, len(all_pairs_shortest_paths[m][n]))
+        for m, n in combinations(odd_degree_nodes, 2)
+    ]
+    
+    # Sort pairs by path length
+    odd_deg_pairs.sort(key=lambda x: x[2])
+
+    # Use a greedy algorithm to find a matching
+    matched = set()
+    matching = []
+    for m, n, length in odd_deg_pairs:
+        if m not in matched and n not in matched:
+            matched.add(m)
+            matched.add(n)
+            matching.append((m, n))
+
+    # Add the paths to the graph
+    for m, n in matching:
+        path = all_pairs_shortest_paths[m][n]
+        G.add_edges_from(nx.utils.pairwise(path))
+
+    return G
 
 def eurilize_graph(graph):
-    return nx.eulerize(graph)
+    return eulerize(graph)
 
 # à faire
 
@@ -33,17 +80,17 @@ def find_drone_path(district, log=False):
     trouver le chemin eulerian
     retourner chemin
     """
-    print(f"Charging {district}")
+    # print(f"Charging {district}")
     graph = get_district_graph(district).to_undirected()
-    print(f"Finished Charging {district}")
+    # print(f"Finished Charging {district}")
     if (not nx.is_eulerian(graph)):
-        print(f"Eularizing {district}")
+        # print(f"Eularizing {district}")
         result = eurilize_graph(graph)
-        print(f"Finished Eularizing {district}")
-    print(f"Searching the eulerian circuit of {district}")
+        # print(f"Finished Eularizing {district}")
+    # print(f"Searching the eulerian circuit of {district}")
     circuit = nx.algorithms.euler.eulerian_circuit(result)
-    print(f"Finished the eulerian circuit of {district}")
-    print(f"Calculating len {district}")
+    # print(f"Finished the eulerian circuit of {district}")
+    # print(f"Calculating len {district}")
     res= list(circuit)
     print(f"len for {district} is {find_len(graph,res)}")
     return res
