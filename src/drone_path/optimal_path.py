@@ -14,12 +14,15 @@ def optimize_route(G, edges, start_node):
     unvisited_edges = list(edges)
 
     while unvisited_edges:
-        last_node = path[-1]
-        next_edge = min(unvisited_edges, key=lambda edge: nx.shortest_path_length(G, last_node, edge[0]))
-        path_to_next_edge = nx.shortest_path(G, last_node, next_edge[0])
-        path.extend(path_to_next_edge[1:])
-        path.append(next_edge[1])
-        unvisited_edges.remove(next_edge)
+        try:
+            last_node = path[-1]
+            next_edge = min(unvisited_edges, key=lambda edge: nx.shortest_path_length(G, last_node, edge[0]))
+            path_to_next_edge = nx.shortest_path(G, last_node, next_edge[0])
+            path.extend(path_to_next_edge[1:])
+            path.append(next_edge[1])
+            unvisited_edges.remove(next_edge)
+        except nx.NetworkXNoPath:
+            continue
 
     return list(zip(path[:-1], path[1:]))
 
@@ -32,7 +35,7 @@ def test():
     G = nx.Graph()
     G.add_edges_from([(1, 2), (2, 3), (3, 4), (4, 5), (5, 1), (1, 3), (2, 4), (3, 5), (4, 1)])
     edges_of_interest = [(1, 2), (2, 3), (3, 4), (4, 5), (5, 1), (1, 3), (2, 4)]
-    number_of_vehicles = 3
+    number_of_vehicles = 5
     starting_node = 1
     routes = assign_edges_to_vehicles(G, edges_of_interest, number_of_vehicles, starting_node)
     print(routes)
