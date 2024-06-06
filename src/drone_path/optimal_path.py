@@ -14,15 +14,15 @@ def optimize_route(G, edges, start_node):
     unvisited_edges = list(edges)
 
     while unvisited_edges:
+        last_node = path[-1]
         try:
-            last_node = path[-1]
             next_edge = min(unvisited_edges, key=lambda edge: nx.shortest_path_length(G, last_node, edge[0]))
             path_to_next_edge = nx.shortest_path(G, last_node, next_edge[0])
             path.extend(path_to_next_edge[1:])
             path.append(next_edge[1])
             unvisited_edges.remove(next_edge)
         except nx.NetworkXNoPath:
-            continue
+            unvisited_edges.remove(next_edge)
 
     return list(zip(path[:-1], path[1:]))
 
