@@ -1,7 +1,9 @@
-from optimal_path import assign_edges_to_vehicles
-import threading
+from truck_path.optimal_path import assign_edges_to_vehicles
+from drone_path.drone import test
 from itertools import combinations
 from map import get_district_graph
+import threading
+
 
 def find_len(graph, path):
     res = 0
@@ -10,6 +12,9 @@ def find_len(graph, path):
     return res
 
 def main():
+
+    test()
+
     d1 = get_district_graph("Outremont")
     d2 = get_district_graph("Verdun")
     d3 = get_district_graph("Anjou")
@@ -30,23 +35,25 @@ def main():
         nb_t1_ = 0
         nb_t2_ = 0
         for i in list_d1_:
+            path_len = find_len(d1,i)
             if find_len(d1,i) < Temp_vise_ * 10:
                 nb_t1_ +=1
-                max_temp = max(max_temp, find_len(d1,i)/10)
+                max_temp = max(max_temp, path_len/10)
             else:
                 nb_t2_ +=1
-                max_temp = max(max_temp, find_len(d1,i)/20)
+                max_temp = max(max_temp, path_len/20)
 
         list_d2_ = assign_edges_to_vehicles(d2, [(u, v) for u, v, _ in d2.edges.data()] , nb_d2_, list(d2.nodes)[0])
         max_district_d2_ = max([find_len(d2,i) for i in list_d2_])
         print(f"max_district_d2_ is {max_district_d2_}")
         for i in list_d2_:
-            if find_len(d2,i) < Temp_vise_ * 10:
+            path_len = find_len(d2,i) 
+            if path_len < Temp_vise_ * 10:
                 nb_t1_ +=1
-                max_temp = max(max_temp, find_len(d2,i)/10)
+                max_temp = max(max_temp, path_len/10)
             else:
                 nb_t2_ +=1
-                max_temp = max(max_temp, find_len(d2,i)/20)
+                max_temp = max(max_temp, path_len/20)
         
         # list_d3_ = assign_edges_to_vehicles(d3,[(u, v) for u, v, _ in d3.edges.data()] , nb_d3_, list(d3.nodes)[0])
         # max_district_d3_ = max([find_len(d3,i) for i in list_d3_])
