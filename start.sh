@@ -12,6 +12,5 @@ check_and_install_package() {
 
 check_and_install_package osmnx
 check_and_install_package networkx
-check_and_install_package threading
 
-python src/main.py
+python3 src/main.py
