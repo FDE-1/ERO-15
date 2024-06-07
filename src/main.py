@@ -1,7 +1,7 @@
 from truck_path.optimal_path import assign_edges_to_vehicles
 from drone_path.drone import test
 from itertools import combinations
-from map import get_district_graph
+from truck_path.map import get_district_graph
 import threading
 
 
