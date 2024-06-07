@@ -69,5 +69,5 @@ def test():
     for thread in threads:
         thread.join()
 
-    print(f"The global cost is {global_cost}")
+    print(f"Drone cost is {global_cost}")
 
