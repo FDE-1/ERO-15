@@ -54,7 +54,7 @@ def find_drone_path(district, log=False):
 
         with cost_lock:
             global_cost += cost
-    
+        print(f"Full distance of {district} is {total_len}")
     return res, cost
 
 def test():
