@@ -20,7 +20,7 @@ This is a repository for the Project ERO made by the group PARIS15.
     - Transforme le graphe donnée en graphe eulerien
 
 *3. district_map.py*
-    - récupère la carte de l'arrondissement sous forme de graphe
+    - Récupère la carte de l'arrondissement sous forme de graphe
 
 *4. optimal_path.py*
     - Cherche le ou les chemins selon le nombre de véhicule
