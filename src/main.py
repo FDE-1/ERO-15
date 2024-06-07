@@ -89,19 +89,27 @@ def main():
         #         max_temp = max(max_temp, find_len(d5,i)/20)
         if (max(max_district_d1_,max_district_d2_)< Temp_vise_*20):
             if (Temp_vise_ <8):
-                return print(list_d1_+list_d2_, nb_t1_ *(500 + 1.1 * Temp_vise_*10 + 1.1 * Temp_vise_ ) + nb_t1_ *(800 + 1.3 * Temp_vise_*10 + 1.3 * Temp_vise_), max_temp, nb_t1_, nb_t2_)
+                print(f"Liste de chemin {list_d1_+list_d2_}")
+                print(f"Cout total = {nb_t1_ *(500 + 1.1 * Temp_vise_*10 + 1.1 * Temp_vise_ ) + nb_t2_ *(800 + 1.3 * Temp_vise_*10 + 1.3 * Temp_vise_)}")
+                print(f"nombre de t1 = {nb_t1_} | nombre de t2 = {nb_t2_}")
+                print(f"Temp = {max_temp}")
+                return list_d1_+list_d2_
             else:
-                return print(list_d1_+list_d2_, nb_t1_ *(500 + 1.1 * Temp_vise_*10 + 1.1 * 8 + 1.3 * (Temp_vise_-8) ) + nb_t1_ *(800 + 1.3 * Temp_vise_*10 + 1.3 * 8 + 1.5 * (Temp_vise_-8)), max_temp)
+                print(f"Liste de chemin {list_d1_+list_d2_}")
+                print(f"Cout total = { nb_t1_ *(500 + 1.1 * Temp_vise_*10 + 1.1 * 8 + 1.3 * (Temp_vise_-8) ) + nb_t2_ *(800 + 1.3 * Temp_vise_*10 + 1.3 * 8 + 1.5 * (Temp_vise_-8))}")
+                print(f"nombre de t1 = {nb_t1_} | nombre de t2 = {nb_t2_}")
+                print(f"Temp = {max_temp}")
+                return list_d1_+list_d2_
         if (max_district_d1_ > Temp_vise_ * 20):
             nb_d1_ += 1
         if (max_district_d2_ > Temp_vise_ * 20):
             nb_d2_ += 1
         # if (max_district_d3_ > Temp_vise_ * 20):
-        #     nb_d3_ += 50
+        #     nb_d3_ += 1
         # if (max_district_d4_ > Temp_vise_ * 20):
-        #     nb_d4_ += 50
+        #     nb_d4_ += 1
         # if (max_district_d5_ > Temp_vise_ * 20):
-        #     nb_d5_ += 50
+        #     nb_d5_ += 1
         print(f"d1 = {nb_d1_} |d2 ={nb_d2_} | t1 = {nb_t1_} | t2 = {nb_t2_}") 
 
 main()
